@@ -1,0 +1,6 @@
+{
+    "ai_model": "chatgpt-3.5-turbo",
+    "scopes": ["https://www.googleapis.com/auth/gmail.modify"],
+    "credentials": "credentials.json"
+}
+
