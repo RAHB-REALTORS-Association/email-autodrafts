@@ -3,6 +3,9 @@
     "scopes": ["https://www.googleapis.com/auth/gmail.modify"],
     "credentials": "credentials.json",
     "max_tokens": 500,
-    "prompt_template": "I have received an email with the following content: \"{email_body}\". Please draft a response:"
+    "prompt_template": "I have received an email with the following content: \"{email_body}\". Please draft a response:",
+    "local_server": "http://localhost:1234/v1/chat/completions",
+    "system_prompt": "You are a helpful assistant that composes professional and appropriate responses to emails.",
+    "sleep_time": 3600
 }
 

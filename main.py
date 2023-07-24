@@ -61,7 +61,9 @@ def main():
                             email_body, 
                             config["ai_model"],
                             config["max_tokens"],
-                            config["prompt_template"]
+                            config["prompt_template"],
+                            config["local_server"],
+                            config["system_prompt"]
                         )
                         if draft_response is None:
                             continue
@@ -72,8 +74,8 @@ def main():
                         logging.error(f"Error processing email: {e}")
             except Exception as e:
                 logging.error(f"Error fetching emails: {e}")
-            # Sleep for a given period (e.g., 1 hour = 3600 seconds)
-            time.sleep(3600)
+            # Sleep for a given period specified in the configuration
+            time.sleep(config["sleep_time"])
     except Exception as e:
         logging.error(f"Error in main: {e}")
         sys.exit(1)

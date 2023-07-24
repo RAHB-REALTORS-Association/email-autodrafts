@@ -6,18 +6,18 @@ import logging
 # Set up logging
 logging.basicConfig(filename='app.log', filemode='a', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-def generate_response(email_body, model, max_tokens, prompt_template):
+def generate_response(email_body, model, max_tokens, prompt_template, local_server, system_prompt):
     prompt = prompt_template.format(email_body=email_body)
 
     try:
         if os.getenv('USE_LOCAL', 'false').lower() == 'true':
             # Send a POST request to the local server
             response = requests.post(
-                "http://localhost:1234/v1/chat/completions",
+                local_server,
                 json={
                     "model": model,
                     "messages": [
-                        {"role": "system", "content": "You are a helpful assistant that composes professional and appropriate responses to emails."},
+                        {"role": "system", "content": system_prompt},
                         {"role": "user", "content": prompt}
                     ]
                 }
