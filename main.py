@@ -52,13 +52,13 @@ def main():
                 for email in emails:
                     try:
                         # Extract the email content
-                        email_body = email_handler.parse_email_content(gmail_service, email)
-                        if email_body is None:
+                        email_data = email_handler.parse_email_content(gmail_service, email)
+                        if email_data is None:
                             continue
 
                         # Generate a draft response using the local AI or OpenAI API
                         draft_response = ai_handler.generate_response(
-                            email_body, 
+                            email_data, 
                             config["ai_model"],
                             config["max_tokens"],
                             config["prompt_template"],
@@ -69,7 +69,7 @@ def main():
                             continue
 
                         # Create a draft in Gmail
-                        email_handler.create_draft(gmail_service, email, draft_response)
+                        email_handler.create_draft(gmail_service, 'me', draft_response)
                     except Exception as e:
                         logging.error(f"Error processing email: {e}")
             except Exception as e:

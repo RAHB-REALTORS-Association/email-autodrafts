@@ -6,8 +6,8 @@ import logging
 # Set up logging
 logging.basicConfig(filename='app.log', filemode='a', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-def generate_response(email_body, model, max_tokens, prompt_template, local_server, system_prompt):
-    prompt = prompt_template.format(email_body=email_body)
+def generate_response(email_data, model, max_tokens, prompt_template, local_server, system_prompt):
+    prompt = prompt_template.format(email_body=email_data['Body'])
 
     try:
         if os.getenv('USE_LOCAL', 'false').lower() == 'true':
@@ -37,7 +37,18 @@ def generate_response(email_body, model, max_tokens, prompt_template, local_serv
             # Extract the generated response
             response_content = response['choices'][0]['message']['content']
 
-        return response_content
+        # Return the generated response along with necessary metadata
+        return {
+            'To': email_data['To'],
+            'From': email_data['From'],
+            'Subject': email_data['Subject'],
+            'Body': response_content,
+        }
+    
+        if draft_response is None:
+            logging.error('Failed to generate response.')
+
+        return draft_response 
     except Exception as e:
         logging.error(f'An error occurred: {e}')
         return None
