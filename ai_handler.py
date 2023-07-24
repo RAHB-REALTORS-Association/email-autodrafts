@@ -37,18 +37,18 @@ def generate_response(email_data, model, max_tokens, prompt_template, local_serv
             # Extract the generated response
             response_content = response['choices'][0]['message']['content']
 
-        # Return the generated response along with necessary metadata
-        return {
+        # Prepare the response data
+        draft_response = {
             'To': email_data['To'],
             'From': email_data['From'],
             'Subject': email_data['Subject'],
             'Body': response_content,
         }
-    
+        
         if draft_response is None:
             logging.error('Failed to generate response.')
 
-        return draft_response 
+        return draft_response
     except Exception as e:
         logging.error(f'An error occurred: {e}')
         return None

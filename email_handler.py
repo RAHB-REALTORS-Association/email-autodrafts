@@ -54,9 +54,11 @@ def create_draft(service, user_id, draft_response):
 
         # Create the draft
         message_body = {
-            'raw': raw_message.decode('utf-8')
+            'message': {
+                'raw': raw_message.decode('utf-8')
+            }
         }
-        message = service.users().drafts().create(userId=user_id, body=message_body).execute()
-        logging.info(f'Draft id: {message["id"]} created.')
+        draft = service.users().drafts().create(userId=user_id, body=message_body).execute()
+        logging.info(f'Draft id: {draft["id"]} created.')
     except HttpError as error:
         logging.error(f'An error occurred: {error}')
