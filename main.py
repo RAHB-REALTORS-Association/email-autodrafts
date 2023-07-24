@@ -1,3 +1,4 @@
+import os
 import json
 import email_handler
 import oauth2
@@ -5,6 +6,7 @@ import ai_handler
 import time
 import sys
 import logging
+import argparse
 
 # Set up logging
 logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -20,6 +22,15 @@ def load_config():
 
 def main():
     try:
+        # Parse command-line arguments
+        parser = argparse.ArgumentParser(description='Run Email Auto-drafter.')
+        parser.add_argument('--local', action='store_true', help='Use the local AI model.')
+        args = parser.parse_args()
+
+        # If the --local flag is set, override the USE_LOCAL environment variable
+        if args.local:
+            os.environ['USE_LOCAL'] = 'true'
+
         # Load config
         config = load_config()
         if config is None:
@@ -45,8 +56,13 @@ def main():
                         if email_body is None:
                             continue
 
-                        # Generate a draft response using the local AI
-                        draft_response = ai_handler.generate_response_local(email_body, config["ai_model"])
+                        # Generate a draft response using the local AI or OpenAI API
+                        draft_response = ai_handler.generate_response(
+                            email_body, 
+                            config["ai_model"],
+                            config["max_tokens"],
+                            config["prompt_template"]
+                        )
                         if draft_response is None:
                             continue
 

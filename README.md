@@ -1,6 +1,6 @@
-# Email Auto-Drafter
+# Email Auto-drafter
 
-This is a Python script that uses the Gmail API to fetch unread emails, generates responses using a local AI model, and saves these responses as drafts in Gmail.
+Email Auto-drafter is a Python tool that uses AI to automate drafting responses to unread Gmail messages, streamlining email management tasks. It can use either a local AI model or the OpenAI API based on your configuration.
 
 ## Setup
 
@@ -12,9 +12,15 @@ pip install -r requirements.txt
 3. Set up a project in the Google API Console, enable the Gmail API, and download the `credentials.json` file. For detailed instructions, please refer to the [Google API Python Client's User Guide](https://googleapis.github.io/google-api-python-client/docs/).
 4. Place the `credentials.json` file in the same directory as your Python script.
 5. Adjust the settings in `settings.json` to match your setup. You can specify the AI model and the Gmail scopes.
-6. Run the script by executing the following command in your terminal:
+6. Set the `OPENAI_API_KEY` environment variable to your OpenAI API key.
+7. Set the `USE_LOCAL` environment variable to `true` if you want to use a local AI model, or `false` (or leave it unset) if you want to use the OpenAI API.
+8. Run the script by executing the following command in your terminal:
 ```sh
 python main.py
+```
+You can also add the `--local` flag to use the local AI model, regardless of the `USE_LOCAL` environment variable:
+```sh
+python main.py --local
 ```
 
 ## How it works
@@ -24,7 +30,7 @@ The script performs the following steps in a loop:
 1. Connects to Gmail using OAuth 2.0.
 2. Fetches unread emails.
 3. Parses the email content.
-4. Sends the email content to a local server running an AI model to generate a response.
+4. Sends the email content to either a local AI model or the OpenAI API, based on your configuration, to generate a response.
 5. Creates a draft in Gmail with the generated response.
 
 The script sleeps for an hour between each loop.
