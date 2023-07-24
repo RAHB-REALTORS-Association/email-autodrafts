@@ -22,17 +22,21 @@ def generate_response(email_body, model, max_tokens, prompt_template, local_serv
                     ]
                 }
             )
+            # Extract the generated response
+            response_content = response.json()["choices"][0]["message"]["content"]
         else:
             # Use OpenAI API
             openai.api_key = os.getenv('OPENAI_API_KEY')
-            response = openai.Completion.create(
-              engine=model,
-              prompt=prompt,
-              max_tokens=max_tokens
+            response = openai.ChatCompletion.create(
+              model=model,
+              messages=[
+                  {"role": "system", "content": system_prompt},
+                  {"role": "user", "content": prompt}
+              ]
             )
+            # Extract the generated response
+            response_content = response['choices'][0]['message']['content']
 
-        # Extract the generated response
-        response_content = response.json()["choices"][0]["message"]["content"]
         return response_content
     except Exception as e:
         logging.error(f'An error occurred: {e}')
