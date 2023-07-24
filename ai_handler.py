@@ -43,6 +43,7 @@ def generate_response(email_data, model, max_tokens, prompt_template, local_serv
             'From': email_data['From'],
             'Subject': email_data['Subject'],
             'Body': response_content,
+            'ThreadId': email_data['ThreadId']  # Add the ThreadId
         }
         
         if draft_response is None:

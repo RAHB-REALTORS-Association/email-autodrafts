@@ -33,6 +33,7 @@ def parse_email_content(service, email):
             'To': next(header['value'] for header in headers if header['name'] == 'From'),
             'From': next(header['value'] for header in headers if header['name'] == 'To'),
             'Subject': next(header['value'] for header in headers if header['name'] == 'Subject'),
+            'ThreadId': message['threadId']  # Add the ThreadId
         }
 
         if email_data is None:
@@ -50,12 +51,15 @@ def create_draft(service, user_id, draft_response):
         message['to'] = draft_response['To']
         message['from'] = draft_response['To']  # Set 'From' as the 'To' field of the original message
         message['subject'] = draft_response['Subject']
+        message['In-Reply-To'] = draft_response['ThreadId']
+        message['References'] = draft_response['ThreadId']
         raw_message = base64.urlsafe_b64encode(message.as_string().encode('utf-8'))
 
         # Create the draft
         message_body = {
             'message': {
-                'raw': raw_message.decode('utf-8')
+                'raw': raw_message.decode('utf-8'),
+                'threadId': draft_response['ThreadId']  # Add the ThreadId
             }
         }
         draft = service.users().drafts().create(userId=user_id, body=message_body).execute()
