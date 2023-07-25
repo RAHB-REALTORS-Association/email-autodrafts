@@ -1,4 +1,4 @@
-# Email Auto-drafter
+# Email Auto-ReplAI
 
 Email Auto-drafter is a Python tool that uses AI to automate drafting responses to unread Gmail messages, streamlining email management tasks. It can use either a local AI model or the OpenAI API based on your configuration.
 
