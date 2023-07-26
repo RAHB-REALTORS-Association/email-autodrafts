@@ -41,6 +41,9 @@ def main():
         if gmail_service is None:
             sys.exit(1)
 
+        # Get the user's email address
+        user_email_address = gmail_service.users().getProfile(userId='me').execute()['emailAddress']
+
         while True:
             try:
                 # Get unread emails
@@ -52,7 +55,7 @@ def main():
                 for email in emails:
                     try:
                         # Extract the email content
-                        email_data = email_handler.parse_email_content(gmail_service, email)
+                        email_data = email_handler.parse_email_content(gmail_service, email, user_email_address)
                         if email_data is None:
                             continue
 

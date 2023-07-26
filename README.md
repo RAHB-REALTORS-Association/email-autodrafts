@@ -1,6 +1,6 @@
 # Email Auto-ReplAI
 
-Email Auto-ReplAI is a Python tool that uses AI to automate drafting responses to unread Gmail messages, streamlining email management tasks. It can use either a local AI model or the OpenAI API based on your configuration.
+Email Auto-ReplAI is a Python tool that uses AI to automate drafting responses to unread Gmail messages, streamlining email management tasks. It creates drafts for messages specifically addressed to the user, disregarding messages where the user is only CCed or BCCed. Additionally, the application does not generate drafts for messages from or reply-to a noreply or donotreply address and messages with a List-Unsubscribe header. The application can use either a local AI model or the OpenAI API based on your configuration.
 
 ## Setup
 
@@ -29,9 +29,10 @@ The script performs the following steps in a loop:
 
 1. Connects to Gmail using OAuth 2.0.
 2. Fetches unread emails.
-3. Parses the email content.
-4. Sends the email content to either a local AI model or the OpenAI API, based on your configuration, to generate a response.
-5. Creates a draft in Gmail with the generated response.
+3. Filters emails based on the specified rules (directly addressed to user, no List-Unsubscribe header, and not from a noreply/donotreply address).
+4. Parses the filtered email content.
+5. Sends the email content to either a local AI model or the OpenAI API, based on your configuration, to generate a response.
+6. Creates a draft in Gmail with the generated response.
 
 The script sleeps for an hour between each loop.
 
