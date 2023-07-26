@@ -8,11 +8,23 @@ logging.basicConfig(filename='app.log', filemode='a', format='%(name)s - %(level
 
 def get_unread_emails(service):
     try:
-        result = service.users().messages().list(userId='me', q="is:unread").execute()
-        messages = result.get('messages', [])
+        # Get the list of drafts
+        drafts = service.users().drafts().list(userId='me').execute().get('drafts', [])
+
+        # Extract the thread IDs of the drafts
+        draft_thread_ids = [draft['message']['threadId'] for draft in drafts]
+
+        # Build the query for fetching unread emails
+        query = 'is:unread'
+        for thread_id in draft_thread_ids:
+            query += f' -threadId:{thread_id}'
+
+        # Fetch the unread emails
+        results = service.users().messages().list(userId='me', q=query).execute()
+        messages = results.get('messages', [])
         return messages
-    except HttpError as error:
-        logging.error(f'An error occurred: {error}')
+    except Exception as e:
+        logging.error(f'An error occurred: {e}')
         return None
 
 def parse_email_content(service, email):
