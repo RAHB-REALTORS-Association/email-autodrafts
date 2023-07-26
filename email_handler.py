@@ -31,7 +31,7 @@ def get_unread_emails(service):
         logging.error(f'An error occurred: {e}')
         return None
 
-def parse_email_content(service, email):
+def parse_email_content(service, email, user_email_address):
     try:
         message = service.users().messages().get(userId='me', id=email['id']).execute()
         payload = message['payload']
@@ -43,18 +43,36 @@ def parse_email_content(service, email):
         decoded_data = base64.urlsafe_b64decode(data_bytes)
         str_data = decoded_data.decode('utf-8')
 
-        # Extract the 'To', 'From', and 'Subject' fields from headers
+        # Extract the 'To', 'From', 'Reply-to', 'List-Unsubscribe', and 'Subject' fields from headers
         email_data = {
             'Body': str_data,
-            'To': next(header['value'] for header in headers if header['name'] == 'From'),
-            'From': next(header['value'] for header in headers if header['name'] == 'To'),
-            'Subject': next(header['value'] for header in headers if header['name'] == 'Subject'),
+            'To': next((header['value'] for header in headers if header['name'] == 'To'), None),
+            'From': next((header['value'] for header in headers if header['name'] == 'From'), None),
+            'Reply-to': next((header['value'] for header in headers if header['name'] == 'Reply-to'), None),
+            'List-Unsubscribe': next((header['value'] for header in headers if header['name'] == 'List-Unsubscribe'), None),
+            'Subject': next((header['value'] for header in headers if header['name'] == 'Subject'), None),
             'ThreadId': message['threadId']  # Add the ThreadId
         }
 
-        if email_data is None:
-            logging.error('Failed to parse email content.')
-        
+        # Create a copy of the email data for logging, excluding the body
+        log_email_data = {k: v for k, v in email_data.items() if k != 'Body'}
+
+        # Skip emails that are not directly addressed to the user
+        if user_email_address not in email_data['To']:
+            logging.info(f"Skipping email not directly addressed to the user. Email data: {log_email_data}")
+            return None
+
+        # Skip emails that have a List-Unsubscribe header
+        if email_data['List-Unsubscribe']:
+            logging.info(f"Skipping email with a List-Unsubscribe header. Email data: {log_email_data}")
+            return None
+
+        # Skip emails from or reply-to a noreply or donotreply address
+        if any((substring in email_data['From'] for substring in ['noreply@', 'no-reply@', 'donotreply@', 'do-not-reply@'])) or \
+                any((substring in email_data['Reply-to'] for substring in ['noreply@', 'no-reply@', 'donotreply@', 'do-not-reply@'])):
+            logging.info(f"Skipping email from or reply-to a noreply or donotreply address. Email data: {log_email_data}")
+            return None
+
         return email_data
     except HttpError as error:
         logging.error(f'An error occurred: {error}')
