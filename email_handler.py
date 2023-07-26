@@ -58,7 +58,7 @@ def parse_email_content(service, email, user_email_address):
         log_email_data = {k: v for k, v in email_data.items() if k != 'Body'}
 
         # Skip emails that are not directly addressed to the user
-        if user_email_address not in email_data['To']:
+        if user_email_address not in (email_data['To'] or ''):
             logging.info(f"Skipping email not directly addressed to the user. Email data: {log_email_data}")
             return None
 
@@ -68,8 +68,8 @@ def parse_email_content(service, email, user_email_address):
             return None
 
         # Skip emails from or reply-to a noreply or donotreply address
-        if any((substring in email_data['From'] for substring in ['noreply@', 'no-reply@', 'donotreply@', 'do-not-reply@'])) or \
-                any((substring in email_data['Reply-to'] for substring in ['noreply@', 'no-reply@', 'donotreply@', 'do-not-reply@'])):
+        if any((substring in (email_data.get('From') or '') for substring in ['noreply@', 'no-reply@', 'donotreply@', 'do-not-reply@'])) or \
+                any((substring in (email_data.get('Reply-to') or '') for substring in ['noreply@', 'no-reply@', 'donotreply@', 'do-not-reply@'])):
             logging.info(f"Skipping email from or reply-to a noreply or donotreply address. Email data: {log_email_data}")
             return None
 

@@ -26,7 +26,7 @@ def get_gmail_service(config):
             pickle.dump(creds, token)
 
     try:
-        service = build('gmail', 'v1', credentials=creds)
+        service = build('gmail', 'v1', credentials=creds, cache_discovery=False)
     except Exception as e:
         logging.error(f'An error occurred: {e}')
         return None
