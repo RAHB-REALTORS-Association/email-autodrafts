@@ -13,16 +13,20 @@ def get_unread_emails(service):
 
         # Extract the thread IDs of the drafts
         draft_thread_ids = [draft['message']['threadId'] for draft in drafts]
+        logging.info(f'Draft thread IDs: {draft_thread_ids}')
 
-        # Build the query for fetching unread emails
-        query = 'is:unread'
-        for thread_id in draft_thread_ids:
-            query += f' -threadId:{thread_id}'
+        # Fetch all unread emails
+        results = service.users().messages().list(userId='me', q='is:unread').execute()
+        all_unread_emails = results.get('messages', [])
+        all_unread_email_ids = [email['threadId'] for email in all_unread_emails]
+        logging.info(f'All unread email IDs: {all_unread_email_ids}')
 
-        # Fetch the unread emails
-        results = service.users().messages().list(userId='me', q=query).execute()
-        messages = results.get('messages', [])
-        return messages
+        # Filter out the unread emails that belong to threads with drafts
+        filtered_unread_emails = [email for email in all_unread_emails if email['threadId'] not in draft_thread_ids]
+        filtered_unread_email_ids = [email['threadId'] for email in filtered_unread_emails]
+        logging.info(f'Filtered unread email IDs: {filtered_unread_email_ids}')
+
+        return filtered_unread_emails
     except Exception as e:
         logging.error(f'An error occurred: {e}')
         return None
