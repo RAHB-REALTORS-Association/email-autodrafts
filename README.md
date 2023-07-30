@@ -4,7 +4,25 @@
 
 Email Auto-ReplAI is a Python tool that uses AI to automate drafting responses to unread Gmail messages, streamlining email management tasks. It creates drafts for messages specifically addressed to the user, disregarding messages where the user is only CCed or BCCed. Additionally, the application does not generate drafts for messages from or reply-to a noreply or donotreply address and messages with a List-Unsubscribe header. The application can use either a local AI model or the OpenAI API based on your configuration.
 
-## Setup
+## Running with Docker
+
+To get started, you first need to pull the Docker image from the GitHub Container Registry. You can do this by running the following command in your terminal:
+```bash
+docker pull ghcr.io/rahb-realtors-association/email-autodrafts:master
+```
+
+You need to provide your OpenAI API key and specify whether you want to use a local AI model or the OpenAI API. You also need to bind mount your `settings.json` file into the Docker container. 
+
+You can do this by running the following command:
+```bash
+docker run -e OPENAI_API_KEY=<your_openai_api_key> -e USE_LOCAL=<true_or_false> -v /path/to/your/settings.json:/app/settings.json ghcr.io/rahb-realtors-association/email-autodrafts:master
+```
+
+Please replace `<your_openai_api_key>` with your actual OpenAI API key, `<true_or_false>` with `true` if you want to use a local AI model or `false` if you want to use the OpenAI API, and `/path/to/your/settings.json` with the actual path to your `settings.json` file on your host system. 
+
+With this, the project should be up and running inside a Docker container on your system!
+
+## Manual Setup
 
 1. Clone this repository to your local machine.
 2. Install the required Python packages by running the following command in your terminal:
