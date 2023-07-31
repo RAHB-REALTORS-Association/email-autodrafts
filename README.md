@@ -7,20 +7,18 @@ Email Auto-ReplAI is a Python tool that uses AI to automate drafting responses t
 ## Running with Docker
 
 To get started, you first need to pull the Docker image from the GitHub Container Registry. You can do this by running the following command in your terminal:
-```bash
-docker pull ghcr.io/rahb-realtors-association/email-autodrafts:master
+```sh
+docker pull ghcr.io/rahb-realtors-association/email-autodrafts:latest
 ```
 
 You need to provide your OpenAI API key and specify whether you want to use a local AI model or the OpenAI API. You also need to bind mount your `settings.json` file into the Docker container. 
 
 You can do this by running the following command:
-```bash
-docker run -e OPENAI_API_KEY=<your_openai_api_key> -e USE_LOCAL=<true_or_false> -v /path/to/your/settings.json:/app/settings.json ghcr.io/rahb-realtors-association/email-autodrafts:master
+```sh
+docker run -e OPENAI_API_KEY=<your_openai_api_key> -v /path/to/your/settings.json:/app/settings.json -v /path/to/your/credentials.json:/app/credentials.json -v /path/to/your/tocken.pickle:/app/token.pickle ghcr.io/rahb-realtors-association/email-autodrafts:latest
 ```
 
-Please replace `<your_openai_api_key>` with your actual OpenAI API key, `<true_or_false>` with `true` if you want to use a local AI model or `false` if you want to use the OpenAI API, and `/path/to/your/settings.json` with the actual path to your `settings.json` file on your host system. 
-
-With this, the project should be up and running inside a Docker container on your system!
+Please replace `<your_openai_api_key>` with your actual OpenAI API key, `/path/to/your/settings.json` with the actual path to your `settings.json` file on your host system, and the same for `credentials.json` and `token.pickle`.
 
 ## Manual Setup
 
