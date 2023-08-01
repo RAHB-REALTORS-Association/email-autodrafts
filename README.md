@@ -6,18 +6,18 @@
 
 Email Auto-ReplAI ✉️🤖 is a Python tool that uses AI to automate drafting responses to unread Gmail messages, streamlining email management tasks. It creates drafts for messages specifically addressed to the user, disregarding messages where the user is only CCed or BCCed. Additionally, the application does not generate drafts for messages from or reply-to a noreply or donotreply address and messages with a List-Unsubscribe header. The application can use either a local AI model or the OpenAI API based on your configuration.
 
-## Table of Contents
-- [Running with Docker](#running-with-docker)
-- [Manual Setup](#manual-setup)
-- [How it works](#how-it-works)
-- [Logging](#logging)
-- [Note](#note)
-- [Community](#community)
-  - [Contributing](#contributing)
-  - [Reporting Bugs](#reporting-bugs)
-- [License](#license)
+## 📖 Table of Contents
+- [🐳 Running with Docker](#-running-with-docker)
+- [🛠️ Manual Setup](#%EF%B8%8F-manual-setup)
+- [❓ How it works](#-how-it-works)
+- [🧾 Logging](#-logging)
+- [📝 Note](#-note)
+- [🌐 Community](#-community)
+  - [Contributing 👥🤝](#contributing-)
+  - [Reporting Bugs 🐛📝](#reporting-bugs-)
+- [📄 License](#-license)
 
-## Running with Docker
+## 🐳 Running with Docker
 
 To get started, you first need to pull the Docker image from the GitHub Container Registry. You can do this by running the following command in your terminal:
 
@@ -35,7 +35,7 @@ docker run -e OPENAI_API_KEY=<your_openai_api_key> -v /path/to/your/settings.jso
 
 Please replace `<your_openai_api_key>` with your actual OpenAI API key, `/path/to/your/settings.json` with the actual path to your `settings.json` file on your host system, and the same for `credentials.json` and `token.pickle`.
 
-## Manual Setup
+## 🛠️ Manual Setup
 
 1. Clone this repository to your local machine:
 ```bash
@@ -60,30 +60,30 @@ You can also add the `--local` flag to use the local AI model, regardless of the
 python main.py --local
 ```
 
-## How it works
+## ❓ How it works
 
 The script performs the following steps in a loop:
 
-1. Connects to Gmail using OAuth 2.0.
-2. Fetches unread emails.
-3. Filters emails based on the specified rules (directly addressed to user, no List-Unsubscribe header, and not from a noreply/donotreply address).
-4. Parses the filtered email content.
-5. Sends the email content to either a local AI model or the OpenAI API, based on your configuration, to generate a response.
-6. Creates a draft in Gmail with the generated response.
+1. Connects to Gmail using OAuth 2.0. 🔒
+2. Fetches unread emails. 📥
+3. Filters emails based on the specified rules (directly addressed to user, no List-Unsubscribe header, and not from a noreply/donotreply address). 🧹
+4. Parses the filtered email content. 📝
+5. Sends the email content to either a local AI model or the OpenAI API, based on your configuration, to generate a response. 📤💬
+6. Creates a draft in Gmail with the generated response. 📝✉️
 
 The script sleeps for an hour between each loop.
 
-## Logging
+## 🧾 Logging
 
 The script logs information and error messages to a file named `app.log`. This can be used to monitor the script's operation and troubleshoot any issues.
 
-## Note
+## 📝 Note
 
 This script is intended to be run locally on a user's machine. The user must be able to open a web browser on the machine to authorize the script with their Google account.
 
-## Community
+## 🌐 Community
 
-### Contributing
+### Contributing 👥🤝
 
 Contributions of any kind are very welcome, and would be much appreciated.
 For Code of Conduct, see [Contributor Convent](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
@@ -93,7 +93,7 @@ To get started, fork the repo, make your changes, add, commit and push the code,
 [![Submit a
 PR](https://img.shields.io/badge/Submit_a_PR-GitHub-%23060606?style=for-the-badge&logo=github&logoColor=fff)](https://github.com/RAHB-REALTORS-Association/email-autodrafts/compare)
 
-### Reporting Bugs
+### Reporting Bugs 🐛📝
 
 If you've found something that doesn't work as it should, or would like to suggest a new feature, then go ahead and raise an issue on GitHub.
 For bugs, please outline the steps needed to reproduce, and include relevant info like system info and resulting logs.
@@ -101,5 +101,5 @@ For bugs, please outline the steps needed to reproduce, and include relevant inf
 [![Raise an
 Issue](https://img.shields.io/badge/Raise_an_Issue-GitHub-%23060606?style=for-the-badge&logo=github&logoColor=fff)](https://github.com/RAHB-REALTORS-Association/email-autodrafts/issues/new/choose)
 
-## License
-This project is open sourced under the MIT license. See the [LICENSE](LICENSE) file for more info.
+## 📄 License
+This project is open sourced under the MIT license. See the [LICENSE](LICENSE) file for more info. 📜
