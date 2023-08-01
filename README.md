@@ -1,10 +1,10 @@
-# Email Auto-ReplAI
+# ✉️ Email Auto-ReplAI 🤖
 
 [![Continuous Integration](https://github.com/RAHB-REALTORS-Association/email-autodrafts/actions/workflows/python-app.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/email-autodrafts/actions/workflows/python-app.yml)
 [![Docker Image](https://github.com/RAHB-REALTORS-Association/email-autodrafts/actions/workflows/docker-image.yml/badge.svg)](https://github.com/RAHB-REALTORS-Association/email-autodrafts/actions/workflows/docker-image.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Email Auto-ReplAI is a Python tool that uses AI to automate drafting responses to unread Gmail messages, streamlining email management tasks. It creates drafts for messages specifically addressed to the user, disregarding messages where the user is only CCed or BCCed. Additionally, the application does not generate drafts for messages from or reply-to a noreply or donotreply address and messages with a List-Unsubscribe header. The application can use either a local AI model or the OpenAI API based on your configuration.
+Email Auto-ReplAI ✉️🤖 is a Python tool that uses AI to automate drafting responses to unread Gmail messages, streamlining email management tasks. It creates drafts for messages specifically addressed to the user, disregarding messages where the user is only CCed or BCCed. Additionally, the application does not generate drafts for messages from or reply-to a noreply or donotreply address and messages with a List-Unsubscribe header. The application can use either a local AI model or the OpenAI API based on your configuration.
 
 ## Table of Contents
 - [Running with Docker](#running-with-docker)
