@@ -37,7 +37,11 @@ Please replace `<your_openai_api_key>` with your actual OpenAI API key, `/path/t
 
 ## Manual Setup
 
-1. Clone this repository to your local machine.
+1. Clone this repository to your local machine:
+```bash
+git clone https://github.com/RAHB-REALTORS-Association/email-autoread.git
+cd email-autoread
+```
 2. Install the required Python packages by running the following command in your terminal:
 ```bash
 pip install -r requirements.txt
